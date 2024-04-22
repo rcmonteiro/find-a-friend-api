@@ -1,0 +1,98 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum PetSize {
+  MINI
+  SMALL
+  MEDIUM
+  LARGE
+}
+
+enum PetAge {
+  PUPPY
+  YOUNG
+  ADULT
+  SENIOR
+}
+
+enum PetEnergy {
+  LOW
+  MODERATE
+  HIGH
+  VERY_HIGH
+}
+
+enum PetIndependence {
+  VERY_LOW
+  LOW
+  MODERATE
+  HIGH
+}
+
+enum PetEnvironment {
+  APT_CONDO
+  SMALL_YARD
+  LARGE_YARD
+  FARM_RURAl
+}
+
+enum PetIndependenceLevel {
+  SMALL
+  MEDIUM
+  LARGE
+}
+
+model Pet {
+  id   String @id @default(uuid())
+  name String
+  bio  String
+
+  age                PetAge
+  size               PetSize
+  energy             PetEnergy
+  environment        PetEnvironment
+  independence_level PetIndependence
+
+  org                 Org                   @relation(fields: [org_id], references: [id])
+  org_id              String
+  AdoptionRequirement AdoptionRequirement[]
+
+  @@map("pets")
+}
+
+model AdoptionRequirement {
+  id          String @id @default(uuid())
+  requirement String
+  pet         Pet    @relation(fields: [pet_id], references: [id])
+  pet_id      String
+
+  @@map("adoption_requirements")
+}
+
+model Org {
+  id            String @id @default(uuid())
+  title         String
+  name          String
+  email         String
+  zip           String
+  city          String
+  state         String
+  address       String
+  phone         String
+  password_hash String
+  Pet           Pet[]
+
+  @@map("orgs")
+}
