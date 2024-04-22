@@ -13,6 +13,7 @@ import {
 } from 'fastify-type-provider-zod'
 import { ZodError } from 'zod'
 import { orgRoutes } from './http/controllers/orgs/routes'
+import { petRoutes } from './http/controllers/pets/routes'
 
 export const app = fastify().withTypeProvider<ZodTypeProvider>()
 
@@ -54,6 +55,7 @@ app.register(fastifyJwt, {
 app.get('/health', () => ({ status: 'ok' }))
 
 app.register(orgRoutes)
+app.register(petRoutes)
 
 app.setErrorHandler((error, _, reply) => {
   if (error instanceof ZodError) {

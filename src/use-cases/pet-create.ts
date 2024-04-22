@@ -3,7 +3,7 @@ import { PetRepo } from '@/repos/pet-repo'
 import { z } from 'zod'
 import { ResourceNotFoundError } from './errors/resource-not-found-error'
 
-const PetCreateUseCaseSchema = z.object({
+export const PetCreateUseCaseSchema = z.object({
   org_id: z.string().uuid(),
   name: z.string(),
   bio: z.string().nullish(),
@@ -17,7 +17,7 @@ const PetCreateUseCaseSchema = z.object({
   independence_level: z.enum(['VERY_LOW', 'LOW', 'MODERATE', 'HIGH']).nullish(),
 })
 
-type PetCreateUseCaseRequest = z.infer<typeof PetCreateUseCaseSchema>
+export type PetCreateUseCaseBody = z.infer<typeof PetCreateUseCaseSchema>
 
 export class PetCreateUseCase {
   constructor(
@@ -25,7 +25,7 @@ export class PetCreateUseCase {
     private orgRepo: OrgRepo,
   ) {}
 
-  async execute(data: PetCreateUseCaseRequest) {
+  async execute(data: PetCreateUseCaseBody) {
     data = PetCreateUseCaseSchema.parse(data)
 
     const orgExists = await this.orgRepo.getById(data.org_id)
