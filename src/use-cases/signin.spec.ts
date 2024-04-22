@@ -2,8 +2,8 @@ import { InMemoryOrgRepo } from '@/repos/in-memory/in-memory-org-repo'
 import { Prisma } from '@prisma/client'
 import { hash } from 'bcryptjs'
 import { beforeEach, describe, expect, it } from 'vitest'
-import { OrgInvalidCredentialsError } from './errors/org-invalid-credentials-error.js'
-import { SigninUseCase } from './signin.js'
+import { OrgInvalidCredentialsError } from './errors/org-invalid-credentials-error'
+import { SigninUseCase } from './signin'
 
 let orgRepo: InMemoryOrgRepo
 let sut: SigninUseCase

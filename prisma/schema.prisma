@@ -27,6 +27,13 @@ enum PetAge {
   SENIOR
 }
 
+enum PetSpecies {
+  DOG
+  CAT
+  BIRD
+  OTHER
+}
+
 enum PetEnergy {
   LOW
   MODERATE
@@ -45,7 +52,7 @@ enum PetEnvironment {
   APT_CONDO
   SMALL_YARD
   LARGE_YARD
-  FARM_RURAl
+  FARM_RURAL
 }
 
 enum PetIndependenceLevel {
@@ -55,15 +62,16 @@ enum PetIndependenceLevel {
 }
 
 model Pet {
-  id   String @id @default(uuid())
+  id   String  @id @default(uuid())
   name String
-  bio  String
+  bio  String?
 
-  age                PetAge
-  size               PetSize
-  energy             PetEnergy
-  environment        PetEnvironment
-  independence_level PetIndependence
+  species            PetSpecies?
+  age                PetAge?
+  size               PetSize?
+  energy             PetEnergy?
+  environment        PetEnvironment?
+  independence_level PetIndependence?
 
   org                 Org                   @relation(fields: [org_id], references: [id])
   org_id              String

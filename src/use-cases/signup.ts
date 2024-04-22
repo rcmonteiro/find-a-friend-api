@@ -3,7 +3,7 @@ import { hash } from 'bcryptjs'
 import { z } from 'zod'
 import { OrgAlreadyExistsError } from './errors/org-already-exists-error.ts'
 
-export const SignupUseCaseSchema = z.object({
+const SignupUseCaseSchema = z.object({
   title: z.string(),
   name: z.string(),
   email: z.string().email(),

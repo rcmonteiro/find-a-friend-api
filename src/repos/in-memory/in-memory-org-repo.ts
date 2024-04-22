@@ -3,11 +3,11 @@ import { randomUUID } from 'node:crypto'
 import { OrgRepo } from '../org-repo'
 
 export class InMemoryOrgRepo implements OrgRepo {
-  private orgs: Org[] = []
+  public orgs: Org[] = []
 
   async create(data: Prisma.OrgCreateInput) {
     const org = {
-      id: randomUUID(),
+      id: data.id ?? randomUUID(),
       title: data.title,
       name: data.name,
       email: data.email,
@@ -22,7 +22,7 @@ export class InMemoryOrgRepo implements OrgRepo {
     return org
   }
 
-  async findById(id: string) {
+  async getById(id: string) {
     const org = this.orgs.find((org) => org.id === id)
     return org ?? null
   }

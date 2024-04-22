@@ -1,9 +1,9 @@
 import { OrgRepo } from '@/repos/org-repo'
 import { compare } from 'bcryptjs'
 import { z } from 'zod'
-import { OrgInvalidCredentialsError } from './errors/org-invalid-credentials-error.js'
+import { OrgInvalidCredentialsError } from './errors/org-invalid-credentials-error'
 
-export const SigninUseCaseSchema = z.object({
+const SigninUseCaseSchema = z.object({
   email: z.string().email(),
   password: z.string().min(6),
 })
