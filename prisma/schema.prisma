@@ -93,7 +93,7 @@ model Org {
   id            String @id @default(uuid())
   title         String
   name          String
-  email         String
+  email         String @unique
   zip           String
   city          String
   state         String

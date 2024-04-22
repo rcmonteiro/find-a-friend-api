@@ -1,9 +1,9 @@
+import { env } from '@/env'
 import fastifyCookie from '@fastify/cookie'
 import fastifyCors from '@fastify/cors'
 import fastifyJwt from '@fastify/jwt'
 import fastifySwagger from '@fastify/swagger'
 import fastifySwaggerUI from '@fastify/swagger-ui'
-import { env } from 'env'
 import fastify from 'fastify'
 import {
   ZodTypeProvider,
@@ -12,6 +12,7 @@ import {
   validatorCompiler,
 } from 'fastify-type-provider-zod'
 import { ZodError } from 'zod'
+import { orgRoutes } from './http/controllers/orgs/routes'
 
 export const app = fastify().withTypeProvider<ZodTypeProvider>()
 
@@ -51,6 +52,8 @@ app.register(fastifyJwt, {
 })
 
 app.get('/health', () => ({ status: 'ok' }))
+
+app.register(orgRoutes)
 
 app.setErrorHandler((error, _, reply) => {
   if (error instanceof ZodError) {

@@ -3,7 +3,7 @@ import { hash } from 'bcryptjs'
 import { z } from 'zod'
 import { OrgAlreadyExistsError } from './errors/org-already-exists-error.ts'
 
-const SignupUseCaseSchema = z.object({
+export const SignupUseCaseSchema = z.object({
   title: z.string(),
   name: z.string(),
   email: z.string().email(),
@@ -15,12 +15,12 @@ const SignupUseCaseSchema = z.object({
   password: z.string().min(6),
 })
 
-type SignupUseCaseRequest = z.infer<typeof SignupUseCaseSchema>
+export type SignupUseCaseBody = z.infer<typeof SignupUseCaseSchema>
 
 export class SignupUseCase {
   constructor(private repo: OrgRepo) {}
 
-  async execute(data: SignupUseCaseRequest) {
+  async execute(data: SignupUseCaseBody) {
     const orgAlreadyExists = await this.repo.findByEmail(data.email)
     if (orgAlreadyExists) {
       throw new OrgAlreadyExistsError()

@@ -3,17 +3,17 @@ import { compare } from 'bcryptjs'
 import { z } from 'zod'
 import { OrgInvalidCredentialsError } from './errors/org-invalid-credentials-error'
 
-const SigninUseCaseSchema = z.object({
+export const SigninUseCaseSchema = z.object({
   email: z.string().email(),
   password: z.string().min(6),
 })
 
-type SigninUseCaseRequest = z.infer<typeof SigninUseCaseSchema>
+export type SigninUseCaseBody = z.infer<typeof SigninUseCaseSchema>
 
 export class SigninUseCase {
   constructor(private repo: OrgRepo) {}
 
-  async execute(data: SigninUseCaseRequest) {
+  async execute(data: SigninUseCaseBody) {
     data = SigninUseCaseSchema.parse(data)
     const org = await this.repo.findByEmail(data.email)
     if (!org) {
