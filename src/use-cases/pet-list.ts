@@ -2,7 +2,7 @@ import { OrgRepo } from '@/repos/org-repo'
 import { PetRepo } from '@/repos/pet-repo'
 import { z } from 'zod'
 
-const PetListUseCaseSchema = z.object({
+export const PetListUseCaseSchema = z.object({
   city: z.string(),
   age: z.enum(['PUPPY', 'YOUNG', 'ADULT', 'SENIOR']).nullish(),
   size: z.enum(['MINI', 'SMALL', 'MEDIUM', 'LARGE']).nullish(),

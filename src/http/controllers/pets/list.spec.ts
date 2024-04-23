@@ -13,8 +13,8 @@ describe('/controllers/pets/create (e2e)', () => {
     await app.close()
   })
 
-  it('should be able to create a pet', async () => {
-    await prisma.org.create({
+  it('should be able to list pets', async () => {
+    const { id: orgId } = await prisma.org.create({
       data: {
         title: 'Sample Org',
         name: 'John Doe',
@@ -27,21 +27,29 @@ describe('/controllers/pets/create (e2e)', () => {
         password_hash: await hash('123456', 6),
       },
     })
-
-    const authResponse = await request(app.server).post('/sessions').send({
-      email: 'john@doe.com',
-      password: '123456',
-    })
-    const { token } = authResponse.body
-
-    const sutResponse = await request(app.server)
-      .post('/pets')
-      .set('Authorization', `Bearer ${token}`)
-      .send({
+    await prisma.pet.create({
+      data: {
+        org_id: orgId,
         name: 'Chanfro',
         species: 'DOG',
-      })
+      },
+    })
+    await prisma.pet.create({
+      data: {
+        org_id: orgId,
+        name: 'Bacon',
+        species: 'CAT',
+      },
+    })
 
-    expect(sutResponse.statusCode).toEqual(201)
+    const sutResponse = await request(app.server)
+      .get('/pets')
+      .query({
+        city: 'Camboriú',
+      })
+      .send()
+
+    expect(sutResponse.statusCode).toEqual(200)
+    expect(sutResponse.body.pets).toHaveLength(2)
   })
 })

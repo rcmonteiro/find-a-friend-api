@@ -1,9 +1,10 @@
 import { verifyJwt } from '@/http/middlewares/verify-jwt'
-import { PetCreateUseCaseSchema } from '@/use-cases/pet-create'
 import { FastifyInstance } from 'fastify'
 import { ZodTypeProvider } from 'fastify-type-provider-zod'
 import { z } from 'zod'
-import { create } from './create'
+import { PetCreateSchema, create } from './create'
+import { get } from './get'
+import { list } from './list'
 
 export const petRoutes = async (app: FastifyInstance) => {
   app.withTypeProvider<ZodTypeProvider>().post(
@@ -12,7 +13,7 @@ export const petRoutes = async (app: FastifyInstance) => {
       schema: {
         summary: 'Pet Create',
         tags: ['Pet'],
-        body: PetCreateUseCaseSchema,
+        body: PetCreateSchema,
         response: {
           201: z.string().nullable().default(''),
         },
@@ -20,5 +21,27 @@ export const petRoutes = async (app: FastifyInstance) => {
       onRequest: [verifyJwt],
     },
     create,
+  )
+
+  app.withTypeProvider<ZodTypeProvider>().get(
+    '/pets',
+    {
+      schema: {
+        summary: 'Pet List',
+        tags: ['Pet'],
+      },
+    },
+    list,
+  )
+
+  app.withTypeProvider<ZodTypeProvider>().get(
+    '/pets/:id',
+    {
+      schema: {
+        summary: 'Pet Get',
+        tags: ['Pet'],
+      },
+    },
+    get,
   )
 }

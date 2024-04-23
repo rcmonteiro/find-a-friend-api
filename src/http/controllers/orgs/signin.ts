@@ -11,9 +11,7 @@ export const signin = async (request: FastifyRequest, reply: FastifyReply) => {
     const { org } = await signinUseCase.execute(data)
 
     const token = await reply.jwtSign({
-      sign: {
-        sub: org.id,
-      },
+      sub: org.id,
     })
 
     const refreshToken = await reply.jwtSign({
