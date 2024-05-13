@@ -78,3 +78,11 @@ pnpm start:dev
 pnpm run test:coverage
 ```
 ![alt text](./public/coverage.png)
+
+
+### CI/CD
+O projeto também conta com um workflow do GIT para sempre rodar os testes unitários para todo push em qualquer branch, e rodar a atualização com tag dinâmica da aplicação no Docker Hub, para todo pull request na branch master.
+
+**Testando um push, os testes são executados no Github**
+![alt text](./public/ci-push.png)
+
