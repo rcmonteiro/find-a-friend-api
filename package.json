@@ -5,11 +5,12 @@
   "main": "src/server.ts",
   "scripts": {
     "start:dev": "tsx watch src/server.ts",
-    "start": "node build/server.js",
+    "start:prod": "node build/server.js",
+    "start:migrate:prod": "pnpm prisma generate && prisma migrate deploy && pnpm start:prod",
     "build": "tsup src --out-dir build",
     "test:e2e": "vitest run --dir src/http",
     "test:e2e:watch": "vitest --dir src/http",
-    "pretest:e2e": "cd prisma/vitest-environment-prisma && npm link && cd ../.. && npm link vitest-environment-prisma",
+    "pretest:e2e": "cd ./prisma/vitest-environment-prisma && pnpm link ./ && cd ../.. && pnpm link ./prisma/vitest-environment-prisma",
     "test": "vitest run --dir src/use-cases",
     "test:watch": "vitest --dir src/use-cases",
     "test:coverage": "vitest run --coverage"

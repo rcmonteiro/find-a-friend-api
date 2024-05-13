@@ -1,6 +1,7 @@
 services:
-  api-solid-pg:
+  postgres:
     image: bitnami/postgresql
+    restart: always
     container_name: find-a-friend-pg
     environment:
       - POSTGRESQL_USERNAME=docker
@@ -8,3 +9,33 @@ services:
       - POSTGRESQL_DATABASE=findafriend
     ports:
       - '5432:5432'
+    volumes:
+      - db:/data/postgres
+    networks:
+      - find-a-friend-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  find-a-friend-api:
+    env_file:
+      - .env.docker
+    build:
+      context: .
+    container_name: find-a-friend-api
+    ports:
+      - 3001:3333
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - find-a-friend-network
+
+networks:
+  find-a-friend-network:
+    driver: bridge
+
+volumes:
+  db:

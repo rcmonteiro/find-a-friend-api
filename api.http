@@ -1,0 +1,54 @@
+@baseUrl = http://localhost:3001
+@accessToken = {{signin.response.body.token}}
+@petId = {{pet_list_by_city.response.body.pets[0].id}}
+
+# @name signup
+POST {{baseUrl}}/orgs
+Content-Type: application/json
+
+{
+  "title": "Sample Org",
+  "name": "John Doe",
+  "email": "john@doe.com",
+  "phone": "1124512154",
+  "address": "Rua dos bobos, 0",
+  "city": "Camboriú",
+  "state": "SC",
+  "zip": "88248000",
+  "password": "123456"
+}
+
+###
+
+# @name signin
+POST {{baseUrl}}/sessions
+Content-Type: application/json
+
+{
+  "email": "john@doe.com",
+  "password": "123456"
+} 
+
+###
+
+# @name pet_create
+POST {{baseUrl}}/pets
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+  "name": "Chanfro",
+  "species": "DOG"
+}
+
+###
+
+# @name pet_list_by_city
+GET {{baseUrl}}/pets?city=Camboriú
+Content-Type: application/json
+
+###
+
+# @name pet_get_details
+GET {{baseUrl}}/pets/{{petId}}
+Content-Type: application/json

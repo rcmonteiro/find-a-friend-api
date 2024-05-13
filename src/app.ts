@@ -11,6 +11,7 @@ import {
   serializerCompiler,
   validatorCompiler,
 } from 'fastify-type-provider-zod'
+import path from 'node:path'
 import { ZodError } from 'zod'
 import { orgRoutes } from './http/controllers/orgs/routes'
 import { petRoutes } from './http/controllers/pets/routes'
@@ -36,6 +37,7 @@ app.register(fastifySwagger, {
 })
 app.register(fastifySwaggerUI, {
   routePrefix: '/docs',
+  baseDir: env.NODE_ENV === 'dev' ? undefined : path.resolve('static'),
 })
 
 app.setValidatorCompiler(validatorCompiler)
