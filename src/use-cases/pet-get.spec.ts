@@ -10,7 +10,7 @@ let orgRepo: InMemoryOrgRepo
 let sut: PetGetUseCase
 let orgInput: Prisma.OrgCreateInput
 
-describe('use-cases/PetCreate', () => {
+describe('use-cases/PetGet', () => {
   beforeEach(async () => {
     orgRepo = new InMemoryOrgRepo()
     petRepo = new InMemoryPetRepo(orgRepo)
